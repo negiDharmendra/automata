@@ -1,9 +1,10 @@
+package com.dharmenn.dfa;
 import java.util.HashMap;
 
-public class TransitionTable {
+class TransitionTable {
     private HashMap<State, HashMap<String, State>> transitionTable = new HashMap<>();
 
-    public void addTransition(State inputTransition, String alphabet, State outputTransition) {
+    void addTransition(State inputTransition, String alphabet, State outputTransition) {
         if (transitionTable.containsKey(inputTransition))
             addTransitionForExistingState(inputTransition, alphabet, outputTransition);
         else
@@ -21,7 +22,7 @@ public class TransitionTable {
         transitionTable.get(inputTransition).put(alphabet, outputTransition);
     }
 
-    public State nextState(State initialState, String s) {
+    State nextState(State initialState, String s) {
         return transitionTable.get(initialState).get(s);
     }
 }

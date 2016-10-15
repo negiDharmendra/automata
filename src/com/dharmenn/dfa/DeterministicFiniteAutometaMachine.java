@@ -1,13 +1,14 @@
+package com.dharmenn.dfa;
 import java.util.HashSet;
 
-public class DeterministicFiniteAutometaMachine {
+class DeterministicFiniteAutometaMachine {
     private final HashSet<State> states;
     private final HashSet<String> alphabets;
     private final TransitionTable transitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    public DeterministicFiniteAutometaMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
+    DeterministicFiniteAutometaMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
         this.states = states;
         this.alphabets = alphabets;
         this.transitionTable = transitionTable;
@@ -15,7 +16,7 @@ public class DeterministicFiniteAutometaMachine {
         this.finalStates = finalStates;
     }
 
-    public boolean validate(String alphabets) throws InvalidAlphabetException {
+    boolean validate(String alphabets) throws InvalidAlphabetException {
         String[] split = alphabets.split("");
         State state = initialState;
         for (String s : split) {

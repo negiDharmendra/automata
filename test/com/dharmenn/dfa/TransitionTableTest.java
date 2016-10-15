@@ -1,3 +1,4 @@
+package com.dharmenn.dfa;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
