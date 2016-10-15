@@ -9,9 +9,9 @@ import java.util.HashSet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DeterministicFiniteAutometaMachineTest {
+public class DeterministicFiniteAutomataMachineTest {
 
-    private DeterministicFiniteAutometaMachine deterministicFiniteAutometaMachine;
+    private DeterministicFiniteAutomataMachine deterministicFiniteAutomataMachine;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -39,7 +39,7 @@ public class DeterministicFiniteAutometaMachineTest {
         alphabet.add("0");
         alphabet.add("1");
 
-        deterministicFiniteAutometaMachine = new DeterministicFiniteAutometaMachine(states, alphabet, transitionTable, q0, finalStates);
+        deterministicFiniteAutomataMachine = new DeterministicFiniteAutomataMachine(states, alphabet, transitionTable, q0, finalStates);
 
     }
 
@@ -47,17 +47,17 @@ public class DeterministicFiniteAutometaMachineTest {
     public void shouldAcceptValidString() throws InvalidAlphabetException {
 
 
-        assertTrue(deterministicFiniteAutometaMachine.validate("01"));
-        assertTrue(deterministicFiniteAutometaMachine.validate("1"));
-        assertTrue(deterministicFiniteAutometaMachine.validate("01010101111000001"));
+        assertTrue(deterministicFiniteAutomataMachine.validate("01"));
+        assertTrue(deterministicFiniteAutomataMachine.validate("1"));
+        assertTrue(deterministicFiniteAutomataMachine.validate("01010101111000001"));
 
     }
 
     @Test
     public void shouldNotAcceptInvalidString() throws InvalidAlphabetException {
 
-        assertFalse(deterministicFiniteAutometaMachine.validate("0"));
-        assertFalse(deterministicFiniteAutometaMachine.validate("010101011110"));
+        assertFalse(deterministicFiniteAutomataMachine.validate("0"));
+        assertFalse(deterministicFiniteAutomataMachine.validate("010101011110"));
 
     }
 
@@ -65,7 +65,7 @@ public class DeterministicFiniteAutometaMachineTest {
     public void shouldThrowInvalidAlphabetExceptionForInvalidAlphabet() throws InvalidAlphabetException {
         thrown.expect(InvalidAlphabetException.class);
         thrown.expectMessage("2 is not a valid alphabet");
-        deterministicFiniteAutometaMachine.validate("012");
+        deterministicFiniteAutomataMachine.validate("012");
 
     }
 }

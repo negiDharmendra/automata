@@ -1,14 +1,14 @@
 package com.dharmenn.dfa;
 import java.util.HashSet;
 
-class DeterministicFiniteAutometaMachine {
+class DeterministicFiniteAutomataMachine {
     private final HashSet<State> states;
     private final HashSet<String> alphabets;
     private final TransitionTable transitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    DeterministicFiniteAutometaMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
+    DeterministicFiniteAutomataMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
         this.states = states;
         this.alphabets = alphabets;
         this.transitionTable = transitionTable;
