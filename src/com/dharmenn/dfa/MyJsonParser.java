@@ -67,6 +67,7 @@ public class MyJsonParser {
     }
 
     private TransitionTable createTransitionTable(JSONObject jsonTupleObject) {
+        boolean transitionForEmptyString = false;
         TransitionTable transitionTable = new TransitionTable();
         HashMap<String, HashMap<String, String>> delta = (HashMap) jsonTupleObject.get("delta");
 
@@ -75,9 +76,12 @@ public class MyJsonParser {
         for (String state : strings) {
             HashMap<String, String> alphabetSatteHashMap = delta.get(state);
             for (String alphabet : alphabetSatteHashMap.keySet()) {
+                if (alphabet.isEmpty()) transitionForEmptyString  = true;
                 transitionTable.addTransition(new State(state), alphabet, new State(alphabetSatteHashMap.get(alphabet)));
             }
         }
+        JSONObject delta1 = (JSONObject)jsonTupleObject.get("delta");
+        if(!transitionForEmptyString) transitionTable.addTransition(extractStartState(delta1),"Empty",extractStartState(delta1));
         return transitionTable;
     }
 
