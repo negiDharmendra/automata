@@ -1,7 +1,7 @@
 package com.dharmenn.dfa;
 import java.util.HashSet;
 
-class DeterministicFiniteAutomataMachine {
+public class DeterministicFiniteAutomataMachine {
     private final HashSet<State> states;
     private final HashSet<String> alphabets;
     private final TransitionTable transitionTable;
@@ -16,7 +16,7 @@ class DeterministicFiniteAutomataMachine {
         this.finalStates = finalStates;
     }
 
-    boolean validate(String alphabets) throws InvalidAlphabetException {
+    public boolean validate(String alphabets) throws InvalidAlphabetException {
         String[] split = alphabets.split("");
         State state = initialState;
         for (String s : split) {

@@ -1,6 +1,6 @@
 package com.dharmenn.dfa;
 
-class State {
+public class State {
     private String name;
 
     State(String name) {

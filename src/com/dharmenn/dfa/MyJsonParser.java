@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MyJsonParser {
-    JSONArray parse(String jsonData) throws net.minidev.json.parser.ParseException {
+    public JSONArray parse(String jsonData) throws net.minidev.json.parser.ParseException {
         JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
 
         Object obj = parser.parse(jsonData);
@@ -32,7 +32,7 @@ public class MyJsonParser {
         return objectObjectHashMap;
     }
 
-    HashMap<String, ArrayList<String>> extractTestCases(JSONObject jsonObject) {
+    public HashMap<String, ArrayList<String>> extractTestCases(JSONObject jsonObject) {
         HashMap<String, ArrayList<String>> testCases = new HashMap<>();
         testCases.put("pass-cases", (ArrayList<String>) jsonObject.get("pass-cases"));
         testCases.put("fail-cases", (ArrayList<String>) jsonObject.get("fail-cases"));

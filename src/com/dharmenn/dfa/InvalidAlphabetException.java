@@ -1,5 +1,5 @@
 package com.dharmenn.dfa;
-class InvalidAlphabetException extends Throwable {
+public class InvalidAlphabetException extends Throwable {
     public InvalidAlphabetException(String alphabet) {
         super(String.format("%s is not a valid alphabet", alphabet));
     }

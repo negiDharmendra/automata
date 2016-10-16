@@ -1,7 +1,7 @@
 package com.dharmenn.dfa;
 import java.util.HashMap;
 
-class TransitionTable {
+public class TransitionTable {
     private HashMap<State, HashMap<String, State>> transitionTable = new HashMap<>();
 
     void addTransition(State inputTransition, String alphabet, State outputTransition) {
