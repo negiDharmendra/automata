@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class DFATestRunner {
+class DFATestRunner implements FiniteAutomataTestRunner{
     public void run(String jsonFileName, DFAGenerator dfaGenerator) throws IOException, ParseException, InvalidAlphabetException {
         String jsonText = Files.readAllLines(Paths.get(jsonFileName)).iterator().next();
         jsonText = jsonText.replaceAll("\\\\", "");
         jsonText = jsonText.substring(1, jsonText.length() - 1);
         MyJsonParser myJsonParser = new MyJsonParser();
         JSONArray parse = myJsonParser.parse(jsonText);
-        System.out.printf(String.valueOf(parse));
         for (Object o : parse) {
             JSONObject next = (JSONObject) o;
 
@@ -34,7 +33,7 @@ public class DFATestRunner {
             State q1 = myJsonParser.extractStartState(tuple);
             DeterministicFiniteAutomataMachine dfa = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
 
-            System.out.println("Running test for " + stringStringHashMap.get("name"));
+            System.out.println("Running test for " +" "+stringStringHashMap.get("type")+" : "+ stringStringHashMap.get("name"));
             runAllTestPassCases(stringStringHashMap, dfa, myJsonParser.extractTestCases(next).get("pass-cases"));
             runAllTestFailsCases(stringStringHashMap, dfa, myJsonParser.extractTestCases(next).get("fail-cases"));
         }
