@@ -27,7 +27,7 @@ public class DeterministicFiniteAutomataMachine {
     }
 
     private void validateAlphabet(String alphabet) throws InvalidAlphabetException {
-        if (!alphabets.contains(alphabet)) {
+        if (!alphabet.isEmpty() && !alphabets.contains(alphabet)) {
             throw new InvalidAlphabetException(alphabet);
         }
     }
