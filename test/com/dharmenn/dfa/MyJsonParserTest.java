@@ -8,8 +8,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class MyJsonParserTest {
 
@@ -18,12 +20,13 @@ public class MyJsonParserTest {
 
     @Before
     public void setUp() throws Exception {
-        String jsonString = "{\"name\":\"odd number of zeroes\",\"type\":\"dfa\"," +
-                "\"tuple\":{\"states\":[\"q1\",\"q2\"],\"alphabets\":[\"1\",\"0\"]," +
+        String jsonString = "{\"name\":\"odd number of zeroes\"," +
+                "\"type\":\"dfa\",\"tuple\":{\"states\":[\"q1\",\"q2\"]," +
+                "\"alphabets\":[\"1\",\"0\"]," +
                 "\"delta\":{\"q1\":{\"0\":\"q2\",\"1\":\"q1\"},\"q2\":{\"0\":\"q1\",\"1\":\"q2\"}}," +
+                "\"start-state\":\"q1\",\"final-states\":[\"q2\"]}," +
                 "\"pass-cases\":[\"0\",\"000\"]," +
-                "\"fail-cases\":[\"00\",\"0000\"]" +
-                "\"start-state\":\"q1\",\"final-states\":[\"q2\"]}}";
+                "\"fail-cases\":[\"00\",\"0000\"]}";
 
         myJsonParser = new MyJsonParser();
         jsonObject = (JSONObject) myJsonParser.parse(jsonString).get(0);
@@ -53,11 +56,40 @@ public class MyJsonParserTest {
     }
 
     @Test
-    public void shouldExtractTupleFromGivenJsonObject() throws ParseException {
+    public void shouldExtractAllStateFromJsonArray() throws ParseException {
+        HashSet<State> expectedStates  =new HashSet<>();
+        expectedStates.add(new State("q1"));
+        expectedStates.add(new State("q2"));
 
-        Tuple tuple = myJsonParser.extractTuple(jsonObject);
+        HashSet<State> states= myJsonParser.extractStates((JSONObject) jsonObject.get("tuple"));
 
-        assertEquals("com.dharmenn.dfa.Tuple", tuple.getClass().getName());
+        assertEquals(expectedStates, states);
+    }
+
+    @Test
+    public void shouldExtractAllFinalStateFromJsonArray() throws ParseException {
+        HashSet<State> expectedFinalStates  =new HashSet<>();
+        expectedFinalStates.add(new State("q2"));
+
+        HashSet<State> finalStates= myJsonParser.extractFinalStates((JSONObject) jsonObject.get("tuple"));
+
+        assertTrue(expectedFinalStates.equals(finalStates));
+    }
+
+
+    @Test
+    public void shouldExtractDeltaAsTransitionTable() throws ParseException {
+        State q1 = new State("q1");
+        State q2 = new State("q2");
+
+        TransitionTable expectedTransitionTable = new TransitionTable();
+        expectedTransitionTable.addTransition(q1,"0",q2);
+        expectedTransitionTable.addTransition(q1,"1",q1);
+        expectedTransitionTable.addTransition(q2,"0",q1);
+        expectedTransitionTable.addTransition(q2,"1",q2);
+         TransitionTable transitionTable = myJsonParser.extractDelta((JSONObject) jsonObject.get("tuple"));
+
+        assertEquals(expectedTransitionTable, transitionTable);
     }
 
 
@@ -68,6 +100,14 @@ public class MyJsonParserTest {
 
         assertEquals("odd number of zeroes", stringStringHashMap.get("name"));
         assertEquals("dfa", stringStringHashMap.get("type"));
+    }
+
+    @Test
+    public void shouldExtractStartState() throws ParseException {
+
+        State startState = myJsonParser.extractStartState((JSONObject)jsonObject.get("tuple"));
+
+        assertEquals(new State("q1"), startState);
     }
 
     @Test

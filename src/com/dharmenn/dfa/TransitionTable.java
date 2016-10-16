@@ -25,4 +25,20 @@ class TransitionTable {
     State nextState(State initialState, String s) {
         return transitionTable.get(initialState).get(s);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TransitionTable that = (TransitionTable) o;
+
+        return transitionTable != null ? transitionTable.equals(that.transitionTable) : that.transitionTable == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return transitionTable != null ? transitionTable.hashCode() : 0;
+    }
 }

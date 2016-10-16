@@ -6,10 +6,11 @@ import net.minidev.json.parser.JSONParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MyJsonParser {
-    public JSONArray parse(String jsonData) throws net.minidev.json.parser.ParseException {
+    JSONArray parse(String jsonData) throws net.minidev.json.parser.ParseException {
         JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
 
         Object obj = parser.parse(jsonData);
@@ -22,38 +23,7 @@ public class MyJsonParser {
         }
     }
 
-    public Tuple extractTuple(JSONObject jsonObject) {
-        JSONObject jsonTupleObject = (JSONObject)jsonObject.get("tuple");
-        ArrayList<String> states = (ArrayList<String>) jsonTupleObject.get("states");
-        Tuple tuple = new Tuple();
-
-        tuple.addStartState(new State((String) jsonTupleObject.get("start-state")));
-
-        for (String state : states) {
-            tuple.addState(new State(state));
-        }
-
-
-        ArrayList<String> finalStates = (ArrayList<String>) jsonTupleObject.get("final-states");
-
-        for (String finalState : finalStates) {
-            tuple.addFinalState(new State(finalState));
-        }
-
-
-        ArrayList<String> alphabets = (ArrayList<String>) jsonTupleObject.get("alphabets");
-
-        for (String alphabet : alphabets) {
-            tuple.addAlphabet(alphabet);
-        }
-
-        tuple.addTransitionTable( createTransitionTable(jsonTupleObject));
-
-
-        return tuple;
-    }
-
-    public HashMap<String, String> extractDFAInfo(JSONObject jsonObject) {
+    HashMap<String, String> extractDFAInfo(JSONObject jsonObject) {
         HashMap<String, String> objectObjectHashMap = new HashMap<>();
 
         objectObjectHashMap.put("name", (String) jsonObject.get("name"));
@@ -62,11 +32,31 @@ public class MyJsonParser {
         return objectObjectHashMap;
     }
 
-    public HashMap<String, ArrayList<String>> extractTestCases(JSONObject jsonObject) {
+    HashMap<String, ArrayList<String>> extractTestCases(JSONObject jsonObject) {
         HashMap<String, ArrayList<String>> testCases = new HashMap<>();
-        testCases.put("pass-cases",(ArrayList<String>) jsonObject.get("pass-cases"));
-        testCases.put("fail-cases",(ArrayList<String>) jsonObject.get("fail-cases"));
+        testCases.put("pass-cases", (ArrayList<String>) jsonObject.get("pass-cases"));
+        testCases.put("fail-cases", (ArrayList<String>) jsonObject.get("fail-cases"));
         return testCases;
+    }
+
+    HashSet<State> extractStates(JSONObject jsonObject) {
+        return getStates(jsonObject, "states");
+    }
+
+    HashSet<State> extractFinalStates(JSONObject jsonObject) {
+
+        return getStates(jsonObject, "final-states");
+
+    }
+
+    TransitionTable extractDelta(JSONObject jsonObject) {
+        ArrayList<String> alphabets = (ArrayList<String>) jsonObject.get("alphabets");
+
+        return createTransitionTable(jsonObject);
+    }
+
+    State extractStartState(JSONObject jsonObject) {
+        return new State((String) jsonObject.get("start-state"));
     }
 
     private TransitionTable createTransitionTable(JSONObject jsonTupleObject) {
@@ -82,5 +72,14 @@ public class MyJsonParser {
             }
         }
         return transitionTable;
+    }
+
+    private HashSet<State> getStates(JSONObject jsonObject, String stateType) {
+        ArrayList<String> states = (ArrayList<String>) jsonObject.get(stateType);
+        HashSet<State> allStates = new HashSet<>();
+        for (String state : states) {
+            allStates.add(new State(state));
+        }
+        return allStates;
     }
 }
