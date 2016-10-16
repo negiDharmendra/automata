@@ -103,6 +103,16 @@ public class MyJsonParserTest {
     }
 
     @Test
+    public void shouldExtractAllAlphabets() throws ParseException {
+        HashSet<String> expectedAlphabets  = new HashSet<>();
+        expectedAlphabets.add("0");
+        expectedAlphabets.add("1");
+        HashSet<String> alphabets = myJsonParser.extractAlphabets((JSONObject)jsonObject.get("tuple"));
+
+        assertEquals(expectedAlphabets, alphabets);
+    }
+
+    @Test
     public void shouldExtractStartState() throws ParseException {
 
         State startState = myJsonParser.extractStartState((JSONObject)jsonObject.get("tuple"));

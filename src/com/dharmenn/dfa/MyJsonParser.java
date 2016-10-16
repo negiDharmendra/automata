@@ -23,7 +23,7 @@ public class MyJsonParser {
         }
     }
 
-    HashMap<String, String> extractDFAInfo(JSONObject jsonObject) {
+    public HashMap<String, String> extractDFAInfo(JSONObject jsonObject) {
         HashMap<String, String> objectObjectHashMap = new HashMap<>();
 
         objectObjectHashMap.put("name", (String) jsonObject.get("name"));
@@ -39,23 +39,30 @@ public class MyJsonParser {
         return testCases;
     }
 
-    HashSet<State> extractStates(JSONObject jsonObject) {
+    public HashSet<State> extractStates(JSONObject jsonObject) {
         return getStates(jsonObject, "states");
     }
 
-    HashSet<State> extractFinalStates(JSONObject jsonObject) {
+    public HashSet<State> extractFinalStates(JSONObject jsonObject) {
 
         return getStates(jsonObject, "final-states");
 
     }
 
-    TransitionTable extractDelta(JSONObject jsonObject) {
-        ArrayList<String> alphabets = (ArrayList<String>) jsonObject.get("alphabets");
-
+    public TransitionTable extractDelta(JSONObject jsonObject) {
         return createTransitionTable(jsonObject);
     }
 
-    State extractStartState(JSONObject jsonObject) {
+    public HashSet<String> extractAlphabets(JSONObject jsonObject) {
+        ArrayList<String> alphabets = (ArrayList<String>) jsonObject.get("alphabets");
+        HashSet<String> alphabetSet = new HashSet<>();
+        for (String alphabet : alphabets) {
+            alphabetSet.add(alphabet);
+        }
+        return alphabetSet;
+    }
+
+    public State extractStartState(JSONObject jsonObject) {
         return new State((String) jsonObject.get("start-state"));
     }
 
