@@ -1,4 +1,4 @@
-package com.dharmenn.dfa;
+package com.tw.step.dfa;
 import java.util.HashMap;
 
 public class TransitionTable {

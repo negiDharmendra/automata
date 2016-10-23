@@ -1,4 +1,4 @@
-package com.dharmenn.dfa;
+package com.tw.step.dfa;
 
 import org.junit.Test;
 
@@ -35,6 +35,6 @@ public class DFAGeneratorTest {
         DFAGenerator dfaGenerator = new DFAGenerator();
         DeterministicFiniteAutomataMachine generate = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
 
-        assertEquals("com.dharmenn.dfa.DeterministicFiniteAutomataMachine", generate.getClass().getName());
+        assertEquals("DeterministicFiniteAutomataMachine", generate.getClass().getName());
     }
 }

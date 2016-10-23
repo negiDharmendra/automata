@@ -1,7 +1,7 @@
-package com.dharmenn.dfaTestRunner;
+package com.tw.step.dfaTestRunner;
 
-import com.dharmenn.dfa.DFAGenerator;
-import com.dharmenn.dfa.InvalidAlphabetException;
+import com.tw.step.dfa.DFAGenerator;
+import com.tw.step.dfa.InvalidAlphabetException;
 import net.minidev.json.parser.ParseException;
 
 import java.io.IOException;

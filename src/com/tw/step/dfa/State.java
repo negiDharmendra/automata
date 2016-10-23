@@ -1,9 +1,9 @@
-package com.dharmenn.dfa;
+package com.tw.step.dfa;
 
 public class State {
     private String name;
 
-    State(String name) {
+    public State(String name) {
         this.name = name;
     }
 
