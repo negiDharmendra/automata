@@ -51,7 +51,6 @@ public class NFATransitionTableTest {
         State q6 = new State("q6");
         State q7 = new State("q7");
         State q8 = new State("q8");
-        State q9 = new State("q9");
 
         NFATransitionTable nfaTransitionTable = new NFATransitionTable();
 
@@ -64,7 +63,7 @@ public class NFATransitionTableTest {
         states.add(q4);
         states.add(q5);
         states.add(q7);
-        states.add(q9);
+        states.add(q8);
         nfaTransitionTable.addTransition(q1,"e",states);
 
         HashSet<State> states1 = new HashSet<>();
@@ -78,7 +77,6 @@ public class NFATransitionTableTest {
 
         HashSet<State> expectedStates = new HashSet<>();
         expectedStates.add(q6);
-        expectedStates.add(q5);
 
         assertEquals(expectedStates, nfaTransitionTable.nextStates(q1,"a"));
     }

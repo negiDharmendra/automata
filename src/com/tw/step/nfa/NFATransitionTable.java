@@ -33,16 +33,14 @@ public class NFATransitionTable {
         if (e == null) {
             return stringHashSetHashMap.get(s);
         } else {
+            e.add(initialState);
             for (State state : e) {
                 HashMap<String, HashSet<State>> hashMap = transitionTable.get(state);
                 if (hashMap != null && hashMap.get(s)!=null)
                     result.addAll(hashMap.get(s));
             }
         }
-        HashSet<State> finalResult = new HashSet<>();
-        finalResult.addAll(result);
-        result.stream().filter(state -> transitionTable.get(state) != null && transitionTable.get(state).get("e") != null).forEach(state -> finalResult.addAll(transitionTable.get(state).get("e")));
-        return finalResult;
+        return result;
     }
 
     @Override
