@@ -3,7 +3,6 @@ package com.tw.step.nfa;
 import com.tw.step.dfa.State;
 
 import java.util.HashSet;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NFAMachine {
