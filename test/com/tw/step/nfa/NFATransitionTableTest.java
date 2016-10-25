@@ -42,7 +42,7 @@ public class NFATransitionTableTest {
 
 
     @Test
-    public void shouldReturnAllStatesForAGivenStateAndAlphabetForEpsilon() {
+    public void shouldApplyTransitionForAllStateConnectedByEpsilon() {
         State q1 = new State("q1");
         State q2 = new State("q2");
         State q3 = new State("q3");
