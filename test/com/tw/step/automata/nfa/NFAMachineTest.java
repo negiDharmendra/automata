@@ -3,7 +3,9 @@ package com.tw.step.automata.nfa;
 import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.State;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.HashSet;
 
@@ -13,6 +15,9 @@ import static org.junit.Assert.assertTrue;
 public class NFAMachineTest {
 
     private NFAMachine nfaMachine;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +60,7 @@ public class NFAMachineTest {
         HashSet<String> alphabets = new HashSet<>();
         alphabets.add("a");
         alphabets.add("b");
+        alphabets.add("");
 
         HashSet<State> allStates = new HashSet<>();
         allStates.add(q1);
@@ -69,7 +75,7 @@ public class NFAMachineTest {
     }
 
     @Test
-    public void shouldValidateAValidString() {
+    public void shouldValidateAValidString() throws InvalidAlphabetException {
         assertTrue(nfaMachine.validate(""));
         assertTrue(nfaMachine.validate("a"));
         assertTrue(nfaMachine.validate("aa"));
@@ -80,11 +86,19 @@ public class NFAMachineTest {
     }
 
     @Test
-    public void shouldValidateAInvalidString() {
+    public void shouldValidateAInvalidString() throws InvalidAlphabetException {
         assertFalse(nfaMachine.validate("b"));
         assertFalse(nfaMachine.validate("ab"));
         assertFalse(nfaMachine.validate("bbba"));
         assertFalse(nfaMachine.validate("baa"));
     }
 
+
+    @Test
+    public void shouldThrowInvalidAlphabetExceptionForInvalidAlphabet() throws InvalidAlphabetException {
+        thrown.expect(InvalidAlphabetException.class);
+        thrown.expectMessage("c is not a valid alphabet");
+        nfaMachine.validate("ac");
+
+    }
 }
