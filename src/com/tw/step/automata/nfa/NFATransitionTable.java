@@ -26,25 +26,30 @@ public class NFATransitionTable {
         transitionTable.get(inputTransition).put(alphabet, outputTransition);
     }
 
-    HashSet<State> nextStates(State initialState, String s) {
-        HashSet<State> result = new HashSet<>();
-        HashMap<String, HashSet<State>> stringHashSetHashMap = transitionTable.get(initialState);
-        HashSet<State> e = stringHashSetHashMap.get("e");
-        if (e == null) {
-            return stringHashSetHashMap.get(s);
+    HashSet<State> nextStates(State initialState, String alphabet) {
+        HashSet<State> nextStates = new HashSet<>();
+        HashMap<String, HashSet<State>> transitionForCurrentState = transitionTable.get(initialState);
+        HashSet<State> epsilonStates = transitionForCurrentState.get("e");
+        if (epsilonStates == null) {
+            return transitionForCurrentState.get(alphabet);
         } else {
-            e.add(initialState);
-            for (State state : e) {
-                HashMap<String, HashSet<State>> hashMap = transitionTable.get(state);
-                if (hashMap != null && hashMap.get(s)!=null)
-                    result.addAll(hashMap.get(s));
-            }
+            epsilonStates.add(initialState);
+            transitionForEpsilonStates(epsilonStates,alphabet, nextStates);
         }
-        return result;
+        return nextStates;
+    }
+
+
+    private void transitionForEpsilonStates(HashSet<State> epsilonStates, String alphabet, HashSet<State> nextStates) {
+        epsilonStates.forEach((epsilonState) -> {
+            HashMap<String, HashSet<State>> hashMap = transitionTable.get(epsilonState);
+            if (hashMap != null && hashMap.get(alphabet) != null)
+                nextStates.addAll(hashMap.get(alphabet));
+        });
     }
 
     @Override
     public String toString() {
-        return this.getClass().getName() +" : "+ transitionTable;
+        return this.getClass().getName() + " : " + transitionTable;
     }
 }
