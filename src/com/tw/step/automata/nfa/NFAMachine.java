@@ -1,18 +1,19 @@
-package com.tw.step.nfa;
+package com.tw.step.automata.nfa;
 
-import com.tw.step.dfa.State;
+import com.tw.step.automata.util.InvalidAlphabetException;
+import com.tw.step.automata.util.State;
 
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-public class NFAMachine {
+class NFAMachine {
     private final HashSet<State> allStates;
     private final HashSet<String> alphabets;
     private final NFATransitionTable nfaTransitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    public NFAMachine(HashSet<State> allStates, HashSet<String> alphabets, NFATransitionTable nfaTransitionTable, State initialState, HashSet<State> finalStates) {
+    NFAMachine(HashSet<State> allStates, HashSet<String> alphabets, NFATransitionTable nfaTransitionTable, State initialState, HashSet<State> finalStates) {
 
         this.allStates = allStates;
         this.alphabets = alphabets;

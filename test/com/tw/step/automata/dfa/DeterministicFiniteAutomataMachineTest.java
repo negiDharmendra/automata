@@ -1,4 +1,6 @@
-package com.tw.step.dfa;
+package com.tw.step.automata.dfa;
+import com.tw.step.automata.util.InvalidAlphabetException;
+import com.tw.step.automata.util.State;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

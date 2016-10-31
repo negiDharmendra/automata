@@ -1,6 +1,8 @@
-package com.tw.step.dfaTestRunner;
+package com.tw.step.automata.dfaTestRunner;
 
-import com.tw.step.dfa.*;
+import com.tw.step.automata.dfa.*;
+import com.tw.step.automata.util.InvalidAlphabetException;
+import com.tw.step.automata.util.State;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;

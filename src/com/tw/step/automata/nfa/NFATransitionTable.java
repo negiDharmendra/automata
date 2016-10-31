@@ -1,6 +1,6 @@
-package com.tw.step.nfa;
+package com.tw.step.automata.nfa;
 
-import com.tw.step.dfa.State;
+import com.tw.step.automata.util.State;
 
 import java.util.HashMap;
 import java.util.HashSet;

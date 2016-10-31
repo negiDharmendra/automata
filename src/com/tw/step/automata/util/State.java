@@ -1,4 +1,4 @@
-package com.tw.step.dfa;
+package com.tw.step.automata.util;
 
 public class State {
     private String name;
