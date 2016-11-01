@@ -34,8 +34,8 @@ public class DFAGeneratorTest {
         finalStates.add(q1);
 
         DFAGenerator dfaGenerator = new DFAGenerator();
-        DeterministicFiniteAutomataMachine generate = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
+        DFAMachine generate = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
 
-        assertEquals("DeterministicFiniteAutomataMachine", generate.getClass().getName());
+        assertEquals("com.tw.step.automata.dfa.DFAMachine", generate.getClass().getName());
     }
 }

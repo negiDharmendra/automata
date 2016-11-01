@@ -1,5 +1,7 @@
-package com.tw.step.automata.dfa;
+package com.tw.step.automata.util;
 
+import com.tw.step.automata.dfa.TransitionTable;
+import com.tw.step.automata.util.MyJsonParser;
 import com.tw.step.automata.util.State;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -58,21 +60,21 @@ public class MyJsonParserTest {
 
     @Test
     public void shouldExtractAllStateFromJsonArray() throws ParseException {
-        HashSet<State> expectedStates  =new HashSet<>();
+        HashSet<State> expectedStates = new HashSet<>();
         expectedStates.add(new State("q1"));
         expectedStates.add(new State("q2"));
 
-        HashSet<State> states= myJsonParser.extractStates((JSONObject) jsonObject.get("tuple"));
+        HashSet<State> states = myJsonParser.extractStates((JSONObject) jsonObject.get("tuple"));
 
         assertEquals(expectedStates, states);
     }
 
     @Test
     public void shouldExtractAllFinalStateFromJsonArray() throws ParseException {
-        HashSet<State> expectedFinalStates  =new HashSet<>();
+        HashSet<State> expectedFinalStates = new HashSet<>();
         expectedFinalStates.add(new State("q2"));
 
-        HashSet<State> finalStates= myJsonParser.extractFinalStates((JSONObject) jsonObject.get("tuple"));
+        HashSet<State> finalStates = myJsonParser.extractFinalStates((JSONObject) jsonObject.get("tuple"));
 
         assertTrue(expectedFinalStates.equals(finalStates));
     }
@@ -84,11 +86,11 @@ public class MyJsonParserTest {
         State q2 = new State("q2");
 
         TransitionTable expectedTransitionTable = new TransitionTable();
-        expectedTransitionTable.addTransition(q1,"0",q2);
-        expectedTransitionTable.addTransition(q1,"1",q1);
-        expectedTransitionTable.addTransition(q2,"0",q1);
-        expectedTransitionTable.addTransition(q2,"1",q2);
-         TransitionTable transitionTable = myJsonParser.extractDelta((JSONObject) jsonObject.get("tuple"));
+        expectedTransitionTable.addTransition(q1, "0", q2);
+        expectedTransitionTable.addTransition(q1, "1", q1);
+        expectedTransitionTable.addTransition(q2, "0", q1);
+        expectedTransitionTable.addTransition(q2, "1", q2);
+        TransitionTable transitionTable = myJsonParser.extractDelta((JSONObject) jsonObject.get("tuple"));
 
         assertEquals(expectedTransitionTable, transitionTable);
     }
@@ -105,10 +107,10 @@ public class MyJsonParserTest {
 
     @Test
     public void shouldExtractAllAlphabets() throws ParseException {
-        HashSet<String> expectedAlphabets  = new HashSet<>();
+        HashSet<String> expectedAlphabets = new HashSet<>();
         expectedAlphabets.add("0");
         expectedAlphabets.add("1");
-        HashSet<String> alphabets = myJsonParser.extractAlphabets((JSONObject)jsonObject.get("tuple"));
+        HashSet<String> alphabets = myJsonParser.extractAlphabets((JSONObject) jsonObject.get("tuple"));
 
         assertEquals(expectedAlphabets, alphabets);
     }
@@ -116,7 +118,7 @@ public class MyJsonParserTest {
     @Test
     public void shouldExtractStartState() throws ParseException {
 
-        State startState = myJsonParser.extractStartState((JSONObject)jsonObject.get("tuple"));
+        State startState = myJsonParser.extractStartState((JSONObject) jsonObject.get("tuple"));
 
         assertEquals(new State("q1"), startState);
     }

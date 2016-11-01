@@ -1,7 +1,9 @@
 package com.tw.step.automata.dfaTestRunner;
 
 import com.tw.step.automata.dfa.*;
+import com.tw.step.automata.dfa.DFAGenerator;
 import com.tw.step.automata.util.InvalidAlphabetException;
+import com.tw.step.automata.util.MyJsonParser;
 import com.tw.step.automata.util.State;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -33,7 +35,7 @@ class DFATestRunner implements FiniteAutomataTestRunner{
             TransitionTable transitionTable = myJsonParser.extractDelta(tuple);
             HashSet<State> finalStates = myJsonParser.extractFinalStates(tuple);
             State q1 = myJsonParser.extractStartState(tuple);
-            DeterministicFiniteAutomataMachine dfa = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
+            DFAMachine dfa = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
 
             System.out.println("Running test for " +" "+stringStringHashMap.get("type")+" : "+ stringStringHashMap.get("name"));
             runAllTestPassCases(stringStringHashMap, dfa, myJsonParser.extractTestCases(next).get("pass-cases"));
@@ -42,7 +44,7 @@ class DFATestRunner implements FiniteAutomataTestRunner{
 
     }
 
-    private void runAllTestFailsCases(HashMap<String, String> stringStringHashMap, DeterministicFiniteAutomataMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
+    private void runAllTestFailsCases(HashMap<String, String> stringStringHashMap, DFAMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
         System.out.println("<===== For fail cases : =====>");
         for (String string : strings) {
             boolean validate = dfa.validate(string);
@@ -56,7 +58,7 @@ class DFATestRunner implements FiniteAutomataTestRunner{
 
     }
 
-    private void runAllTestPassCases(HashMap<String, String> stringStringHashMap, DeterministicFiniteAutomataMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
+    private void runAllTestPassCases(HashMap<String, String> stringStringHashMap, DFAMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
         System.out.println("<===== For pass cases : =====>");
         for (String string : strings) {
             boolean validate = dfa.validate(string);

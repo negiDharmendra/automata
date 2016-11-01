@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class TransitionTable {
     private HashMap<State, HashMap<String, State>> transitionTable = new HashMap<>();
 
-    void addTransition(State inputTransition, String alphabet, State outputTransition) {
+    public void addTransition(State inputTransition, String alphabet, State outputTransition) {
         if (transitionTable.containsKey(inputTransition))
             addTransitionForExistingState(inputTransition, alphabet, outputTransition);
         else
@@ -42,5 +42,12 @@ public class TransitionTable {
     @Override
     public int hashCode() {
         return transitionTable != null ? transitionTable.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "TransitionTable{" +
+                "transitionTable=" + transitionTable +
+                '}';
     }
 }

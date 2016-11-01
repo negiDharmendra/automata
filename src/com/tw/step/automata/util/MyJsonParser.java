@@ -1,5 +1,6 @@
-package com.tw.step.automata.dfa;
+package com.tw.step.automata.util;
 
+import com.tw.step.automata.dfa.TransitionTable;
 import com.tw.step.automata.util.State;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -63,27 +64,24 @@ public class MyJsonParser {
         return alphabetSet;
     }
 
-    public State extractStartState(JSONObject jsonObject) {
-        return new State((String) jsonObject.get("start-state"));
-    }
-
     private TransitionTable createTransitionTable(JSONObject jsonTupleObject) {
-        boolean transitionForEmptyString = false;
+
         TransitionTable transitionTable = new TransitionTable();
         HashMap<String, HashMap<String, String>> delta = (HashMap) jsonTupleObject.get("delta");
 
-        Set<String> strings = delta.keySet();
+        Set<String> states = delta.keySet();
 
-        for (String state : strings) {
-            HashMap<String, String> alphabetSatteHashMap = delta.get(state);
-            for (String alphabet : alphabetSatteHashMap.keySet()) {
-                if (alphabet.isEmpty()) transitionForEmptyString  = true;
-                transitionTable.addTransition(new State(state), alphabet, new State(alphabetSatteHashMap.get(alphabet)));
+        for (String state : states) {
+            HashMap<String, String> alphabetStateHashMap = delta.get(state);
+            for (String alphabet : alphabetStateHashMap.keySet()) {
+                transitionTable.addTransition(new State(state), alphabet, new State(alphabetStateHashMap.get(alphabet)));
             }
         }
-        JSONObject delta1 = (JSONObject)jsonTupleObject.get("delta");
-        if(!transitionForEmptyString) transitionTable.addTransition(extractStartState(delta1),"Empty",extractStartState(delta1));
         return transitionTable;
+    }
+
+    public State extractStartState(JSONObject jsonObject) {
+        return new State((String) jsonObject.get("start-state"));
     }
 
     private HashSet<State> getStates(JSONObject jsonObject, String stateType) {

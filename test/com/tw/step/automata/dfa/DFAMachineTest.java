@@ -11,9 +11,9 @@ import java.util.HashSet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DeterministicFiniteAutomataMachineTest {
+public class DFAMachineTest {
 
-    private DeterministicFiniteAutomataMachine deterministicFiniteAutomataMachine;
+    private DFAMachine DFAMachine;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -41,7 +41,7 @@ public class DeterministicFiniteAutomataMachineTest {
         alphabet.add("0");
         alphabet.add("1");
 
-        deterministicFiniteAutomataMachine = new DeterministicFiniteAutomataMachine(states, alphabet, transitionTable, q0, finalStates);
+        DFAMachine = new DFAMachine(states, alphabet, transitionTable, q0, finalStates);
 
     }
 
@@ -49,17 +49,17 @@ public class DeterministicFiniteAutomataMachineTest {
     public void shouldAcceptValidString() throws InvalidAlphabetException {
 
 
-        assertTrue(deterministicFiniteAutomataMachine.validate("01"));
-        assertTrue(deterministicFiniteAutomataMachine.validate("1"));
-        assertTrue(deterministicFiniteAutomataMachine.validate("01010101111000001"));
+        assertTrue(DFAMachine.validate("01"));
+        assertTrue(DFAMachine.validate("1"));
+        assertTrue(DFAMachine.validate("01010101111000001"));
 
     }
 
     @Test
     public void shouldNotAcceptInvalidString() throws InvalidAlphabetException {
 
-        assertFalse(deterministicFiniteAutomataMachine.validate("0"));
-        assertFalse(deterministicFiniteAutomataMachine.validate("010101011110"));
+        assertFalse(DFAMachine.validate("0"));
+        assertFalse(DFAMachine.validate("010101011110"));
 
     }
 
@@ -67,7 +67,7 @@ public class DeterministicFiniteAutomataMachineTest {
     public void shouldThrowInvalidAlphabetExceptionForInvalidAlphabet() throws InvalidAlphabetException {
         thrown.expect(InvalidAlphabetException.class);
         thrown.expectMessage("2 is not a valid alphabet");
-        deterministicFiniteAutomataMachine.validate("012");
+        DFAMachine.validate("012");
 
     }
 }

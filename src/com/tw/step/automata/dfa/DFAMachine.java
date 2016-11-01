@@ -4,14 +4,14 @@ import com.tw.step.automata.util.State;
 
 import java.util.HashSet;
 
-public class DeterministicFiniteAutomataMachine {
+public class DFAMachine {
     private final HashSet<State> states;
     private final HashSet<String> alphabets;
     private final TransitionTable transitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    DeterministicFiniteAutomataMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
+    public DFAMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
         this.states = states;
         this.alphabets = alphabets;
         this.transitionTable = transitionTable;
