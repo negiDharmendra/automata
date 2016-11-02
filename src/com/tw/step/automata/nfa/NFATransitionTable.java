@@ -26,26 +26,30 @@ public class NFATransitionTable {
         transitionTable.get(inputTransition).put(alphabet, outputTransition);
     }
 
-    HashSet<State> nextStates(State initialState, String alphabet) {
-        HashSet<State> nextStates = new HashSet<>();
-        HashMap<String, HashSet<State>> transitionForCurrentState = transitionTable.get(initialState);
-        HashSet<State> epsilonStates = transitionForCurrentState.get("e");
-        if (epsilonStates == null) {
-            return transitionForCurrentState.get(alphabet);
-        } else {
-            epsilonStates.add(initialState);
-            transitionForEpsilonStates(epsilonStates,alphabet, nextStates);
-        }
-        return nextStates;
+    HashSet<State> nextStates(State currentState, String alphabet) {
+        HashMap<String, HashSet<State>> stringHashSetHashMap = transitionTable.get(currentState);
+        if (stringHashSetHashMap == null)
+            return null;
+        return stringHashSetHashMap.get(alphabet);
     }
 
-
-    private void transitionForEpsilonStates(HashSet<State> epsilonStates, String alphabet, HashSet<State> nextStates) {
-        epsilonStates.forEach((epsilonState) -> {
-            HashMap<String, HashSet<State>> hashMap = transitionTable.get(epsilonState);
-            if (hashMap != null && hashMap.get(alphabet) != null)
-                nextStates.addAll(hashMap.get(alphabet));
-        });
+    HashSet<State> getEpsilonStates(State q1) {
+        HashSet<State> objects = new HashSet<>();
+        objects.add(q1);
+        HashMap<String, HashSet<State>> stringHashSetHashMap1 = transitionTable.get(q1);
+        if (stringHashSetHashMap1 != null) {
+            HashSet<State> stringHashSetHashMap = stringHashSetHashMap1.get("e");
+            if (stringHashSetHashMap != null) {
+                for (State state : stringHashSetHashMap) {
+                    HashSet<State> epsilonStates = getEpsilonStates(state);
+                    if (epsilonStates == null) {
+                        break;
+                    }
+                    objects.addAll(epsilonStates);
+                }
+            }
+        }
+        return objects;
     }
 
     @Override

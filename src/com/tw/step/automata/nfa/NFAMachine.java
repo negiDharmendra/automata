@@ -25,36 +25,40 @@ class NFAMachine {
 
     boolean validate(String languageString) throws InvalidAlphabetException {
         String[] alphabetSequence = languageString.split("");
-        HashSet<State> states = alphabetTraverses(alphabetSequence);
-        Stream<State> states1 = states.stream().filter(finalStates::contains);
-        return states1.findAny().isPresent();
-    }
-
-    private HashSet<State> alphabetTraverses(String[] alphabetSequence) throws InvalidAlphabetException {
-        boolean firstAlphabet = true;
-        HashSet<State> states = new HashSet<>();
-        for (String alphabet : alphabetSequence) {
-            validateAlphabet(alphabet);
-            if (firstAlphabet) {
-                states = this.nfaTransitionTable.nextStates(initialState, alphabet);
-                firstAlphabet = false;
-            } else {
-                states = traversAfterSecondAlphabet(states, alphabet);
+        HashSet<State> currentStates = new HashSet<>();
+        currentStates.add(initialState);
+        if (languageString.isEmpty()) {
+            currentStates = nfaTransitionTable.getEpsilonStates(initialState);
+            Stream<State> states1 = currentStates.stream().filter(finalStates::contains);
+            return states1.findAny().isPresent();
+        } else {
+            for (String alphabet : alphabetSequence) {
+                validateAlphabet(alphabet);
+                HashSet<State> allNextStates = new HashSet<>();
+                for (State state : currentStates) {
+                    HashSet<State> epsilonStates = nfaTransitionTable.getEpsilonStates(state);
+                    for (State epsilonState : epsilonStates) {
+                        HashSet<State> nextStates = nfaTransitionTable.nextStates(epsilonState, alphabet);
+                        if (nextStates != null)
+                            allNextStates.addAll(nextStates);
+                    }
+                }
+                currentStates = allNextStates;
             }
+            HashSet<State> objects = new HashSet<>();
+            currentStates.forEach((state) -> {
+                HashSet<State> epsilonStates1 = nfaTransitionTable.getEpsilonStates(state);
+                if (epsilonStates1 != null) objects.addAll(epsilonStates1);
+            });
+            Stream<State> states1 = objects.stream().filter(finalStates::contains);
+            return states1.findAny().isPresent();
         }
-        return states;
-    }
 
-    private HashSet<State> traversAfterSecondAlphabet(HashSet<State> states, String s) {
-        HashSet<State> result = new HashSet<>();
-        for (State state : states) {
-            HashSet<State> nextState = this.nfaTransitionTable.nextStates(state, s);
-            if (nextState != null) result.addAll(nextState);
-        }
-        return result;
+
     }
 
     private void validateAlphabet(String alphabet) throws InvalidAlphabetException {
-        if(! alphabets.contains(alphabet)) throw new InvalidAlphabetException(alphabet);
+        if (alphabet.isEmpty()) return;
+        if (!alphabets.contains(alphabet)) throw new InvalidAlphabetException(alphabet);
     }
 }
