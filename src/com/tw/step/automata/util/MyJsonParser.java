@@ -58,9 +58,7 @@ public class MyJsonParser {
     public HashSet<String> extractAlphabets(JSONObject jsonObject) {
         ArrayList<String> alphabets = (ArrayList<String>) jsonObject.get("alphabets");
         HashSet<String> alphabetSet = new HashSet<>();
-        for (String alphabet : alphabets) {
-            alphabetSet.add(alphabet);
-        }
+        alphabetSet.addAll(alphabets);
         return alphabetSet;
     }
 
