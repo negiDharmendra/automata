@@ -1,30 +1,32 @@
 package com.tw.step.automata.nfa;
 
+import com.tw.step.automata.util.FiniteAutomataMachine;
 import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-class NFAMachine {
+class NFAMachine implements FiniteAutomataMachine{
     private final HashSet<State> allStates;
     private final HashSet<String> alphabets;
     private final NFATransitionTable nfaTransitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    NFAMachine(HashSet<State> allStates, HashSet<String> alphabets, NFATransitionTable nfaTransitionTable, State initialState, HashSet<State> finalStates) {
+    NFAMachine(HashSet<State> allStates, HashSet<String> alphabets, TransitionTable nfaTransitionTable, State initialState, HashSet<State> finalStates) {
 
         this.allStates = allStates;
         this.alphabets = alphabets;
-        this.nfaTransitionTable = nfaTransitionTable;
+        this.nfaTransitionTable = (NFATransitionTable)nfaTransitionTable;
         this.initialState = initialState;
         this.finalStates = finalStates;
     }
 
 
-    boolean validate(String languageString) throws InvalidAlphabetException {
+    public boolean validate(String languageString) throws InvalidAlphabetException {
         HashSet<State> currentStates = new HashSet<>();
         currentStates.add(initialState);
         if (languageString.isEmpty())
@@ -38,7 +40,7 @@ class NFAMachine {
         validateAlphabet(alphabet);
         HashSet<State> allNextStates = new HashSet<>();
         for (State epsilonState : nfaTransitionTable.getEpsilonStates(currentStates))
-            allNextStates.addAll(nfaTransitionTable.nextStates(epsilonState, alphabet));
+            allNextStates.addAll(nfaTransitionTable.nextState(epsilonState, alphabet));
         return allNextStates;
     }
 

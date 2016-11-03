@@ -1,9 +1,10 @@
 package com.tw.step.automata.dfa;
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashMap;
 
-public class TransitionTable {
+public class DFATransitionTable implements TransitionTable<State> {
     private HashMap<State, HashMap<String, State>> transitionTable = new HashMap<>();
 
     public void addTransition(State inputTransition, String alphabet, State outputTransition) {
@@ -12,6 +13,10 @@ public class TransitionTable {
         else
             addNewTransition(inputTransition, alphabet, outputTransition);
 
+    }
+
+    public State nextState(State initialState, String alphabet) {
+        return transitionTable.get(initialState).get(alphabet);
     }
 
     private void addNewTransition(State inputTransition, String alphabet, State outputTransition) {
@@ -24,16 +29,12 @@ public class TransitionTable {
         transitionTable.get(inputTransition).put(alphabet, outputTransition);
     }
 
-    State nextState(State initialState, String s) {
-        return transitionTable.get(initialState).get(s);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TransitionTable that = (TransitionTable) o;
+        DFATransitionTable that = (DFATransitionTable) o;
 
         return transitionTable != null ? transitionTable.equals(that.transitionTable) : that.transitionTable == null;
 
@@ -46,7 +47,7 @@ public class TransitionTable {
 
     @Override
     public String toString() {
-        return "TransitionTable{" +
+        return "DFATransitionTable{" +
                 "transitionTable=" + transitionTable +
                 '}';
     }

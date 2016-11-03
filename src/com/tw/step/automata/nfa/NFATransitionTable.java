@@ -1,14 +1,16 @@
 package com.tw.step.automata.nfa;
 
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-class NFATransitionTable {
+class NFATransitionTable implements TransitionTable<HashSet<State>> {
     private HashMap<State, HashMap<String, HashSet<State>>> transitionTable = new HashMap<>();
 
-    void addTransition(State inputTransition, String alphabet, HashSet<State> outputTransition) {
+
+    public void addTransition(State inputTransition, String alphabet, HashSet<State> outputTransition) {
         if (transitionTable.containsKey(inputTransition))
             addTransitionForExistingState(inputTransition, alphabet, outputTransition);
         else
@@ -26,7 +28,7 @@ class NFATransitionTable {
         transitionTable.get(inputTransition).put(alphabet, outputTransition);
     }
 
-    HashSet<State> nextStates(State currentState, String alphabet) {
+    public HashSet<State> nextState(State currentState, String alphabet) {
         HashMap<String, HashSet<State>> stringHashSetHashMap = transitionTable.get(currentState);
         if (stringHashSetHashMap == null)
             return new HashSet<>();

@@ -22,19 +22,19 @@ public class DFAGeneratorTest {
         alphabets.add("1");
         alphabets.add("0");
 
-        TransitionTable transitionTable = new TransitionTable();
-        transitionTable.addTransition(q1, "0", q2);
-        transitionTable.addTransition(q1, "1", q2);
-        transitionTable.addTransition(q2, "0", q3);
-        transitionTable.addTransition(q2, "1", q3);
-        transitionTable.addTransition(q3, "0", q1);
-        transitionTable.addTransition(q3, "1", q1);
+        DFATransitionTable DFATransitionTable = new DFATransitionTable();
+        DFATransitionTable.addTransition(q1, "0", q2);
+        DFATransitionTable.addTransition(q1, "1", q2);
+        DFATransitionTable.addTransition(q2, "0", q3);
+        DFATransitionTable.addTransition(q2, "1", q3);
+        DFATransitionTable.addTransition(q3, "0", q1);
+        DFATransitionTable.addTransition(q3, "1", q1);
 
         HashSet<State> finalStates = new HashSet<>();
         finalStates.add(q1);
 
         DFAGenerator dfaGenerator = new DFAGenerator();
-        DFAMachine generate = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
+        DFAMachine generate = (DFAMachine) dfaGenerator.generate(states, alphabets, DFATransitionTable, q1, finalStates);
 
         assertEquals("com.tw.step.automata.dfa.DFAMachine", generate.getClass().getName());
     }

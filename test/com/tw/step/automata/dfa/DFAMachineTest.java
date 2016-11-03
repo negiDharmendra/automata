@@ -24,11 +24,11 @@ public class DFAMachineTest {
         State q0 = new State("q0");
         State q1 = new State("q1");
 
-        TransitionTable transitionTable = new TransitionTable();
-        transitionTable.addTransition(q0, "0", q0);
-        transitionTable.addTransition(q1, "0", q0);
-        transitionTable.addTransition(q0, "1", q1);
-        transitionTable.addTransition(q1, "1", q1);
+        DFATransitionTable DFATransitionTable = new DFATransitionTable();
+        DFATransitionTable.addTransition(q0, "0", q0);
+        DFATransitionTable.addTransition(q1, "0", q0);
+        DFATransitionTable.addTransition(q0, "1", q1);
+        DFATransitionTable.addTransition(q1, "1", q1);
 
         HashSet<State> states = new HashSet<>();
         states.add(q0);
@@ -41,7 +41,7 @@ public class DFAMachineTest {
         alphabet.add("0");
         alphabet.add("1");
 
-        DFAMachine = new DFAMachine(states, alphabet, transitionTable, q0, finalStates);
+        DFAMachine = new DFAMachine(states, alphabet, DFATransitionTable, q0, finalStates);
 
     }
 
