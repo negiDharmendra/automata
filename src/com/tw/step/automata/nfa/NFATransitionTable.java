@@ -5,7 +5,7 @@ import com.tw.step.automata.util.State;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class NFATransitionTable {
+class NFATransitionTable {
     private HashMap<State, HashMap<String, HashSet<State>>> transitionTable = new HashMap<>();
 
     void addTransition(State inputTransition, String alphabet, HashSet<State> outputTransition) {
@@ -34,7 +34,7 @@ public class NFATransitionTable {
         return states == null ? new HashSet<>() : states;
     }
 
-    HashSet<State> getEpsilonStates(State previousState) {
+    private HashSet<State> getEpsilonStates(State previousState) {
         HashSet<State> allEpsilonStates = new HashSet<>();
         allEpsilonStates.add(previousState);
         HashMap<String, HashSet<State>> currentStates = transitionTable.get(previousState);
@@ -52,14 +52,14 @@ public class NFATransitionTable {
         return allEpsilonStates;
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getName() + " : " + transitionTable;
-    }
-
-    public HashSet<State> getEpsilonStates(HashSet<State> states) {
+    HashSet<State> getEpsilonStates(HashSet<State> states) {
         HashSet<State> allEpsilonStates = new HashSet<>();
         states.forEach(state -> allEpsilonStates.addAll(getEpsilonStates(state)));
         return allEpsilonStates;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getName() + " : " + transitionTable;
     }
 }

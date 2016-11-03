@@ -95,21 +95,6 @@ public class NFATransitionTableTest {
     }
 
     @Test
-    public void shouldReturnAllEpsilonStatesForAGivenState() {
-
-        HashSet<State> expectedStates2 = new HashSet<>();
-        expectedStates2.add(q1);
-        expectedStates2.add(q2);
-        expectedStates2.add(q3);
-        expectedStates2.add(q4);
-        expectedStates2.add(q5);
-        expectedStates2.add(q6);
-        expectedStates2.add(q7);
-
-        assertEquals(expectedStates2, nfaTransitionTable.getEpsilonStates(q1));
-    }
-
-    @Test
     public void shouldReturnAllEpsilonStatesForAGivenSetOfState() {
         HashSet<State> states = new HashSet<>();
         states.add(q3);

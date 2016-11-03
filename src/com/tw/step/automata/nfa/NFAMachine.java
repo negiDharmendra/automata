@@ -4,6 +4,7 @@ import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.State;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 class NFAMachine {
@@ -24,41 +25,34 @@ class NFAMachine {
 
 
     boolean validate(String languageString) throws InvalidAlphabetException {
-        String[] alphabetSequence = languageString.split("");
         HashSet<State> currentStates = new HashSet<>();
         currentStates.add(initialState);
-        if (languageString.isEmpty()) {
-            currentStates = nfaTransitionTable.getEpsilonStates(initialState);
-            Stream<State> states1 = currentStates.stream().filter(finalStates::contains);
-            return states1.findAny().isPresent();
-        } else {
-            for (String alphabet : alphabetSequence) {
-                validateAlphabet(alphabet);
-                HashSet<State> allNextStates = new HashSet<>();
-                for (State state : currentStates) {
-                    HashSet<State> epsilonStates = nfaTransitionTable.getEpsilonStates(state);
-                    for (State epsilonState : epsilonStates) {
-                        HashSet<State> nextStates = nfaTransitionTable.nextStates(epsilonState, alphabet);
-                        if (nextStates != null)
-                            allNextStates.addAll(nextStates);
-                    }
-                }
-                currentStates = allNextStates;
-            }
-            HashSet<State> objects = new HashSet<>();
-            currentStates.forEach((state) -> {
-                HashSet<State> epsilonStates1 = nfaTransitionTable.getEpsilonStates(state);
-                if (epsilonStates1 != null) objects.addAll(epsilonStates1);
-            });
-            Stream<State> states1 = objects.stream().filter(finalStates::contains);
-            return states1.findAny().isPresent();
-        }
+        if (languageString.isEmpty())
+            return isAccepted(currentStates);
+        for (String alphabet : languageString.split(""))
+            currentStates = alphabetTraverser(currentStates, alphabet);
+        return isAccepted(currentStates);
+    }
 
+    private HashSet<State> alphabetTraverser(HashSet<State> currentStates, String alphabet) throws InvalidAlphabetException {
+        validateAlphabet(alphabet);
+        HashSet<State> allNextStates = new HashSet<>();
+        for (State epsilonState : nfaTransitionTable.getEpsilonStates(currentStates))
+            allNextStates.addAll(nfaTransitionTable.nextStates(epsilonState, alphabet));
+        return allNextStates;
+    }
 
+    private boolean isAccepted(HashSet<State> currentStates) {
+        HashSet<State> epsilonStates = nfaTransitionTable.getEpsilonStates(currentStates);
+        return intersectionsOf(epsilonStates, finalStates).isPresent();
+    }
+
+    private Optional<State> intersectionsOf(HashSet<State> epsilonStates, HashSet<State> finalStates) {
+        Stream<State> states1 = epsilonStates.stream().filter(finalStates::contains);
+        return states1.findAny();
     }
 
     private void validateAlphabet(String alphabet) throws InvalidAlphabetException {
-        if (alphabet.isEmpty()) return;
         if (!alphabets.contains(alphabet)) throw new InvalidAlphabetException(alphabet);
     }
 }
