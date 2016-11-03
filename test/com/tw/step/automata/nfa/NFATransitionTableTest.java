@@ -88,10 +88,10 @@ public class NFATransitionTableTest {
     }
 
     @Test
-    public void shouldNullForInvalidTransition() {
+    public void shouldReturnNullForInvalidTransition() {
 
-        assertEquals(null, nfaTransitionTable.nextStates(q1, "1"));
-        assertEquals(null, nfaTransitionTable.nextStates(q4, "0"));
+        assertEquals(new HashSet<State>(), nfaTransitionTable.nextStates(q1, "1"));
+        assertEquals(new HashSet<State>(), nfaTransitionTable.nextStates(q4, "0"));
     }
 
     @Test
@@ -107,7 +107,19 @@ public class NFATransitionTableTest {
         expectedStates2.add(q7);
 
         assertEquals(expectedStates2, nfaTransitionTable.getEpsilonStates(q1));
+    }
 
+    @Test
+    public void shouldReturnAllEpsilonStatesForAGivenSetOfState() {
+        HashSet<State> states = new HashSet<>();
+        states.add(q3);
+        states.add(q5);
 
+        HashSet<State> expectedStates2 = new HashSet<>();
+        expectedStates2.add(q6);
+        expectedStates2.add(q7);
+        expectedStates2.addAll(states);
+
+        assertEquals(expectedStates2, nfaTransitionTable.getEpsilonStates(states));
     }
 }

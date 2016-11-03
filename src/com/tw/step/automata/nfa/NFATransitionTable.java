@@ -29,31 +29,37 @@ public class NFATransitionTable {
     HashSet<State> nextStates(State currentState, String alphabet) {
         HashMap<String, HashSet<State>> stringHashSetHashMap = transitionTable.get(currentState);
         if (stringHashSetHashMap == null)
-            return null;
-        return stringHashSetHashMap.get(alphabet);
+            return new HashSet<>();
+        HashSet<State> states = stringHashSetHashMap.get(alphabet);
+        return states == null ? new HashSet<>() : states;
     }
 
-    HashSet<State> getEpsilonStates(State q1) {
-        HashSet<State> objects = new HashSet<>();
-        objects.add(q1);
-        HashMap<String, HashSet<State>> stringHashSetHashMap1 = transitionTable.get(q1);
-        if (stringHashSetHashMap1 != null) {
-            HashSet<State> stringHashSetHashMap = stringHashSetHashMap1.get("e");
-            if (stringHashSetHashMap != null) {
-                for (State state : stringHashSetHashMap) {
+    HashSet<State> getEpsilonStates(State previousState) {
+        HashSet<State> allEpsilonStates = new HashSet<>();
+        allEpsilonStates.add(previousState);
+        HashMap<String, HashSet<State>> currentStates = transitionTable.get(previousState);
+        if (currentStates != null) {
+            HashSet<State> currentEpsilonStates = currentStates.get("e");
+            if (currentEpsilonStates != null) {
+                for (State state : currentEpsilonStates) {
                     HashSet<State> epsilonStates = getEpsilonStates(state);
-                    if (epsilonStates == null) {
+                    if (epsilonStates.isEmpty())
                         break;
-                    }
-                    objects.addAll(epsilonStates);
+                    allEpsilonStates.addAll(epsilonStates);
                 }
             }
         }
-        return objects;
+        return allEpsilonStates;
     }
 
     @Override
     public String toString() {
         return this.getClass().getName() + " : " + transitionTable;
+    }
+
+    public HashSet<State> getEpsilonStates(HashSet<State> states) {
+        HashSet<State> allEpsilonStates = new HashSet<>();
+        states.forEach(state -> allEpsilonStates.addAll(getEpsilonStates(state)));
+        return allEpsilonStates;
     }
 }
