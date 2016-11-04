@@ -1,4 +1,4 @@
-package com.tw.step.automata.dfaTestRunner;
+package com.tw.step.automata.testRunner;
 
 import com.tw.step.automata.dfa.DFATransitionTable;
 import com.tw.step.automata.nfa.NFATransitionTable;

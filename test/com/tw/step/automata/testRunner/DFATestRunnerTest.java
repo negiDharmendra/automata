@@ -1,4 +1,4 @@
-package com.tw.step.automata.dfaTestRunner;
+package com.tw.step.automata.testRunner;
 
 import com.tw.step.automata.dfa.DFAGenerator;
 import com.tw.step.automata.nfa.NFAGenerator;
