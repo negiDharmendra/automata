@@ -6,7 +6,7 @@ import com.tw.step.automata.util.TransitionTable;
 import java.util.HashMap;
 import java.util.HashSet;
 
-class NFATransitionTable implements TransitionTable<HashSet<State>> {
+public class NFATransitionTable implements TransitionTable<HashSet<State>> {
     private HashMap<State, HashMap<String, HashSet<State>>> transitionTable = new HashMap<>();
 
 

@@ -6,14 +6,14 @@ import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashSet;
 
-class DFAMachine implements FiniteAutomataMachine {
+public class DFAMachine implements FiniteAutomataMachine {
     private final HashSet<State> states;
     private final HashSet<String> alphabets;
     private final DFATransitionTable dfaTransitionTable;
     private final State initialState;
     private final HashSet<State> finalStates;
 
-    DFAMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable dfaTransitionTable, State initialState, HashSet<State> finalStates) {
+    public DFAMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable dfaTransitionTable, State initialState, HashSet<State> finalStates) {
         this.states = states;
         this.alphabets = alphabets;
         this.dfaTransitionTable = (DFATransitionTable)dfaTransitionTable;

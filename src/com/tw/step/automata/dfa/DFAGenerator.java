@@ -7,7 +7,7 @@ import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashSet;
 
-class DFAGenerator implements FiniteAutomataGenerator {
+public class DFAGenerator implements FiniteAutomataGenerator {
     public FiniteAutomataMachine generate(HashSet<State> states, HashSet<String> alphabets, TransitionTable transitionTable, State initialState, HashSet<State> finalStates) {
         return new DFAMachine(states, alphabets, transitionTable, initialState, finalStates);
     }
