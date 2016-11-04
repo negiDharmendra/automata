@@ -1,75 +1,48 @@
 package com.tw.step.automata.dfaTestRunner;
 
-import com.tw.step.automata.dfa.*;
-import com.tw.step.automata.dfa.DFAGenerator;
-import com.tw.step.automata.util.InvalidAlphabetException;
-import com.tw.step.automata.util.MyJsonParser;
-import com.tw.step.automata.util.State;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.ParseException;
+import com.tw.step.automata.dfa.DFATransitionTable;
+import com.tw.step.automata.nfa.NFATransitionTable;
+import com.tw.step.automata.util.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
-class DFATestRunner implements FiniteAutomataTestRunner{
-    public void run(String jsonFileName, DFAGenerator dfaGenerator) throws IOException, ParseException, InvalidAlphabetException {
-        String jsonText = Files.readAllLines(Paths.get(jsonFileName)).iterator().next();
-        jsonText = jsonText.replaceAll("\\\\", "");
-        jsonText = jsonText.substring(1, jsonText.length() - 1);
-        MyJsonParser myJsonParser = new MyJsonParser();
-        JSONArray parse = myJsonParser.parse(jsonText);
-        for (Object o : parse) {
-            JSONObject next = (JSONObject) o;
+class DFATestRunner {
 
-            HashMap<String, String> stringStringHashMap = myJsonParser.extractDFAInfo(next);
+    private final HashMap<String, FiniteAutomataGenerator> faMachineGenerators;
+    private final JsonToFAComponentParser jsonToFAComponentParser;
 
-            JSONObject tuple = (JSONObject) next.get("tuple");
+    DFATestRunner(HashMap<String, FiniteAutomataGenerator> faMachineGenerators, JsonToFAComponentParser jsonToFAComponentParser) {
 
-            HashSet<State> states = myJsonParser.extractStates(tuple);
-            HashSet<String> alphabets = myJsonParser.extractAlphabets(tuple);
-            TransitionTable transitionTable = myJsonParser.extractDelta(tuple);
-            HashSet<State> finalStates = myJsonParser.extractFinalStates(tuple);
-            State q1 = myJsonParser.extractStartState(tuple);
-            DFAMachine dfa = dfaGenerator.generate(states, alphabets, transitionTable, q1, finalStates);
-
-            System.out.println("Running test for " +" "+stringStringHashMap.get("type")+" : "+ stringStringHashMap.get("name"));
-            runAllTestPassCases(stringStringHashMap, dfa, myJsonParser.extractTestCases(next).get("pass-cases"));
-            runAllTestFailsCases(stringStringHashMap, dfa, myJsonParser.extractTestCases(next).get("fail-cases"));
-        }
-
+        this.faMachineGenerators = faMachineGenerators;
+        this.jsonToFAComponentParser = jsonToFAComponentParser;
     }
 
-    private void runAllTestFailsCases(HashMap<String, String> stringStringHashMap, DFAMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
-        System.out.println("<===== For fail cases : =====>");
-        for (String string : strings) {
-            boolean validate = dfa.validate(string);
-            if (string.isEmpty()) string = "Empty";
-            if (validate) {
-                System.out.println(string + " is not valid");
-            } else if (validate == false) {
-                System.out.println(string + " is valid");
-            }
-        }
+    boolean runAll() throws InvalidAlphabetException {
+        HashMap<String, TransitionTable> transitionTables = new HashMap<>();
+        transitionTables.put("dfa", new DFATransitionTable());
+        transitionTables.put("nfa", new NFATransitionTable());
 
+        HashSet<String> alphabets = jsonToFAComponentParser.parseAlphabets();
+        TransitionTable transitionTable = jsonToFAComponentParser.parseTransitionFunction(transitionTables);
+        HashMap<String, String> machineInfo = jsonToFAComponentParser.parseMachineInfo();
+        HashSet<State> finalStates = jsonToFAComponentParser.parseFinalStates();
+        State initialState = jsonToFAComponentParser.parseInitialStates();
+        HashSet<State> states = jsonToFAComponentParser.parseAllStates();
+
+        FiniteAutomataGenerator faGenerator = faMachineGenerators.get(machineInfo.get(FAutomata.TYPE.value()));
+        FiniteAutomataMachine machine = faGenerator.generate(states, alphabets, transitionTable, initialState, finalStates);
+
+        boolean passCases = isPassCases(machine, FAutomata.PASSCASES.value(), false);
+        boolean failCases = isPassCases(machine, FAutomata.FAILCASES.value(), true);
+        return passCases && !failCases;
     }
 
-    private void runAllTestPassCases(HashMap<String, String> stringStringHashMap, DFAMachine dfa, ArrayList<String> strings) throws InvalidAlphabetException {
-        System.out.println("<===== For pass cases : =====>");
-        for (String string : strings) {
-            boolean validate = dfa.validate(string);
-            if (string.isEmpty()) string = "Empty";
-
-            if (validate) {
-                System.out.println(string + " is valid");
-            } else if (validate == false) {
-                System.out.println(string + " is not valid");
-            }
-        }
-
+    private boolean isPassCases(FiniteAutomataMachine finiteAutomataMachine, String testCaseType, boolean defaultResult) throws InvalidAlphabetException {
+        HashMap<String, List<String>> testCases = jsonToFAComponentParser.parseTestCases();
+        for (String testCase : testCases.get(testCaseType))
+            defaultResult = finiteAutomataMachine.validate(testCase);
+        return defaultResult;
     }
 }
