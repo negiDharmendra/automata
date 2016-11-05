@@ -1,6 +1,7 @@
 package com.tw.step.automata.dfa;
 import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.States;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,11 +31,11 @@ public class DFAMachineTest {
         DFATransitionTable.addTransition(q0, "1", q1);
         DFATransitionTable.addTransition(q1, "1", q1);
 
-        HashSet<State> states = new HashSet<>();
+        States states = new States();
         states.add(q0);
         states.add(q1);
 
-        HashSet<State> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add(q1);
 
         HashSet<String> alphabet = new HashSet<>();

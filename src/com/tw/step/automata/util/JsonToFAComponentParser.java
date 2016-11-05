@@ -45,8 +45,8 @@ public class JsonToFAComponentParser {
         return machineInfo;
     }
 
-    public HashSet<State> parseFinalStates() {
-        HashSet<State> finalState = new HashSet<>();
+    public States parseFinalStates() {
+        States finalState = new States();
         getTuple().getJSONArray(FAutomata.FINALSTATES.value()).forEach(state -> finalState.add(new State(state.toString())));
         return finalState;
     }
@@ -55,8 +55,8 @@ public class JsonToFAComponentParser {
         return new State(getTuple().getString(FAutomata.STARTSTATE.value()));
     }
 
-    public HashSet<State> parseAllStates() {
-        HashSet<State> finalState = new HashSet<>();
+    public States parseAllStates() {
+        States finalState = new States();
         getTuple().getJSONArray(FAutomata.STATES.value()).forEach(state -> finalState.add(new State(state.toString())));
         return finalState;
     }
@@ -81,7 +81,7 @@ public class JsonToFAComponentParser {
     private void parseNFATransitionFunction(String currentState, JSONObject jsonObject, TransitionTable transitionTable) {
         for (String key : jsonObject.keySet()) {
             JSONArray jsonArray = jsonObject.getJSONArray(key);
-            HashSet<State> states = new HashSet<>();
+            States states = new States();
             jsonArray.forEach(state -> states.add(new State(state.toString())));
             ((NFATransitionTable) transitionTable).addTransition(new State(currentState), key, states);
         }

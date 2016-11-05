@@ -27,9 +27,9 @@ class DFATestRunner {
         HashSet<String> alphabets = jsonToFAComponentParser.parseAlphabets();
         TransitionTable transitionTable = jsonToFAComponentParser.parseTransitionFunction(transitionTables);
         HashMap<String, String> machineInfo = jsonToFAComponentParser.parseMachineInfo();
-        HashSet<State> finalStates = jsonToFAComponentParser.parseFinalStates();
+        States finalStates = jsonToFAComponentParser.parseFinalStates();
         State initialState = jsonToFAComponentParser.parseInitialStates();
-        HashSet<State> states = jsonToFAComponentParser.parseAllStates();
+        States states = jsonToFAComponentParser.parseAllStates();
 
         FiniteAutomataGenerator faGenerator = faMachineGenerators.get(machineInfo.get(FAutomata.TYPE.value()));
         FiniteAutomataMachine machine = faGenerator.generate(states, alphabets, transitionTable, initialState, finalStates);

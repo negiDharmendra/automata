@@ -1,6 +1,7 @@
 package com.tw.step.automata.nfa;
 
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.States;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public class NFAGeneratorTest {
 
     @Test
     public void shouldGenerateADFAForAGivenTuple() throws Exception {
-        HashSet<State> states = new HashSet<>();
+        States states = new States();
         State q1 = new State("q1");
         states.add(q1);
         State q2 = new State("q2");
@@ -25,28 +26,28 @@ public class NFAGeneratorTest {
 
         NFATransitionTable nfaTransitionTable = new NFATransitionTable();
 
-        HashSet<State> states2 = new HashSet<>();
+        States states2 = new States();
         states2.add(q2);
         nfaTransitionTable.addTransition(q2, "0", states2);
 
 
-        HashSet<State> states3 = new HashSet<>();
+        States states3 = new States();
         states3.add(q3);
         nfaTransitionTable.addTransition(q3, "1", states3);
 
 
-        HashSet<State> states5 = new HashSet<>();
+        States states5 = new States();
         states5.add(q1);
         nfaTransitionTable.addTransition(q1, "1", states5);
 
 
 
-        HashSet<State> states7 = new HashSet<>();
+        States states7 = new States();
         states7.add(q3);
         nfaTransitionTable.addTransition(q3, "0", states7);
 
 
-        HashSet<State> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add(q1);
 
         NFAGenerator dfaGenerator = new NFAGenerator();

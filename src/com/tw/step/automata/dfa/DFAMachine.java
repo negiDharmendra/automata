@@ -1,19 +1,16 @@
 package com.tw.step.automata.dfa;
-import com.tw.step.automata.util.FiniteAutomataMachine;
-import com.tw.step.automata.util.InvalidAlphabetException;
-import com.tw.step.automata.util.State;
-import com.tw.step.automata.util.TransitionTable;
+import com.tw.step.automata.util.*;
 
 import java.util.HashSet;
 
 public class DFAMachine implements FiniteAutomataMachine {
-    private final HashSet<State> states;
+    private final States states;
     private final HashSet<String> alphabets;
     private final DFATransitionTable dfaTransitionTable;
     private final State initialState;
-    private final HashSet<State> finalStates;
+    private final States finalStates;
 
-    public DFAMachine(HashSet<State> states, HashSet<String> alphabets, TransitionTable dfaTransitionTable, State initialState, HashSet<State> finalStates) {
+    public DFAMachine(States states, HashSet<String> alphabets, TransitionTable dfaTransitionTable, State initialState, States finalStates) {
         this.states = states;
         this.alphabets = alphabets;
         this.dfaTransitionTable = (DFATransitionTable)dfaTransitionTable;

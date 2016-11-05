@@ -1,6 +1,7 @@
 package com.tw.step.automata.dfa;
 
 import com.tw.step.automata.util.State;
+import com.tw.step.automata.util.States;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import static junit.framework.TestCase.assertEquals;
 public class DFAGeneratorTest {
     @Test
     public void shouldGenerateADFAForAGivenTuple() throws Exception {
-        HashSet<State> states = new HashSet<>();
+        States states = new States();
         State q1 = new State("q1");
         states.add(q1);
         State q2 = new State("q2");
@@ -30,7 +31,7 @@ public class DFAGeneratorTest {
         DFATransitionTable.addTransition(q3, "0", q1);
         DFATransitionTable.addTransition(q3, "1", q1);
 
-        HashSet<State> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add(q1);
 
         DFAGenerator dfaGenerator = new DFAGenerator();

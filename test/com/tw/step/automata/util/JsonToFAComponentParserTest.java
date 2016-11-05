@@ -67,14 +67,14 @@ public class JsonToFAComponentParserTest {
 
     @Test
     public void shouldParseFinalState() throws Exception {
-        HashSet<State> expected = new HashSet<>();
+        States expected = new States();
         expected.add(new State("q2"));
         assertEquals(expected, jsonToFAComponentParser.parseFinalStates());
     }
 
     @Test
     public void shouldParseAllStates() throws Exception {
-        HashSet<State> expected = new HashSet<>();
+        States expected = new States();
         expected.add(new State("q1"));
         expected.add(new State("q2"));
         assertEquals(expected, jsonToFAComponentParser.parseAllStates());
