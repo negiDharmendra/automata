@@ -12,6 +12,7 @@ class DFATestRunner {
 
     private final HashMap<String, FiniteAutomataGenerator> faMachineGenerators;
     private final JsonToFAComponentParser jsonToFAComponentParser;
+    private HashMap<String, String> machineInfo;
 
     DFATestRunner(HashMap<String, FiniteAutomataGenerator> faMachineGenerators, JsonToFAComponentParser jsonToFAComponentParser) {
 
@@ -26,7 +27,7 @@ class DFATestRunner {
 
         HashSet<String> alphabets = jsonToFAComponentParser.parseAlphabets();
         TransitionTable transitionTable = jsonToFAComponentParser.parseTransitionFunction(transitionTables);
-        HashMap<String, String> machineInfo = jsonToFAComponentParser.parseMachineInfo();
+        machineInfo = jsonToFAComponentParser.parseMachineInfo();
         States finalStates = jsonToFAComponentParser.parseFinalStates();
         State initialState = jsonToFAComponentParser.parseInitialStates();
         States states = jsonToFAComponentParser.parseAllStates();
@@ -41,8 +42,16 @@ class DFATestRunner {
 
     private boolean isPassCases(FiniteAutomataMachine finiteAutomataMachine, String testCaseType, boolean defaultResult) throws InvalidAlphabetException {
         HashMap<String, List<String>> testCases = jsonToFAComponentParser.parseTestCases();
-        for (String testCase : testCases.get(testCaseType))
-            defaultResult = finiteAutomataMachine.validate(testCase);
-        return defaultResult;
+        for (String testCase : testCases.get(testCaseType)) {
+            testCase  = testCase.equals("null") ? "" : testCase;
+            boolean validate = finiteAutomataMachine.validate(testCase);
+            if(validate==defaultResult){
+                System.out.println("Failed  "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
+                return validate;
+            }
+            System.out.println("Passed  "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
+        }
+
+        return !defaultResult;
     }
 }
