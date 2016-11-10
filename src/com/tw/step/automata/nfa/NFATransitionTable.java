@@ -30,11 +30,8 @@ public class NFATransitionTable implements TransitionTable<States> {
     }
 
     public States nextState(State currentState, String alphabet) {
-        HashMap<String, States> stringHashSetHashMap = transitionTable.get(currentState);
-        if (stringHashSetHashMap == null)
-            return new States();
-        States states = stringHashSetHashMap.get(alphabet);
-        return states == null ? new States() : states;
+        HashMap<String, States> stringHashSetHashMap = transitionTable.getOrDefault(currentState, new HashMap<>());
+        return stringHashSetHashMap.getOrDefault(alphabet, new States());
     }
 
     private States getEpsilonStates(State previousState) {
