@@ -6,7 +6,6 @@ import com.tw.step.automata.util.FiniteAutomataGenerator;
 import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.JsonToFAComponentParser;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws InvalidAlphabetException, IOException {
         String jsonText = Files.readAllLines(Paths.get("examples1.json")).get(0);
-        System.out.println(jsonText);
         jsonText = jsonText.replaceAll("\\\\|\"", "");
         JSONArray objects = new JSONArray(jsonText);
         HashMap<String, FiniteAutomataGenerator> finiteAutomataGenerators = new HashMap<>();
