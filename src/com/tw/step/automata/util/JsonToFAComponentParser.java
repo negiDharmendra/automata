@@ -30,12 +30,22 @@ public class JsonToFAComponentParser {
         Set<String> strings = delta.keySet();
         for (String string : strings) {
             JSONObject jsonObject = delta.getJSONObject(string);
-            if (parseMachineInfo().get(FAutomata.TYPE.value()).equals(FAutomata.NFA.value()))
+            if (isOfNfaType())
                 parseNFATransitionFunction(string, jsonObject, transitionTable);
-            else
+            else if(isOfDfaType())
                 parseDFATransitionFunction(string, jsonObject, transitionTable);
         }
         return transitionTable;
+    }
+
+    private boolean isOfDfaType() {
+        String type = parseMachineInfo().get(FAutomata.TYPE.value());
+        return type.equals(FAutomata.DFA.value());
+    }
+
+    private boolean isOfNfaType() {
+        String type = parseMachineInfo().get(FAutomata.TYPE.value());
+        return type.equals(FAutomata.NFA.value());
     }
 
     public HashMap<String, String> parseMachineInfo() {
