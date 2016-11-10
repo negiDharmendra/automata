@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-class DFATestRunner {
+class FATestRunner {
 
     private final HashMap<String, FiniteAutomataGenerator> faMachineGenerators;
     private final JsonToFAComponentParser jsonToFAComponentParser;
     private HashMap<String, String> machineInfo;
 
-    DFATestRunner(HashMap<String, FiniteAutomataGenerator> faMachineGenerators, JsonToFAComponentParser jsonToFAComponentParser) {
+    FATestRunner(HashMap<String, FiniteAutomataGenerator> faMachineGenerators, JsonToFAComponentParser jsonToFAComponentParser) {
 
         this.faMachineGenerators = faMachineGenerators;
         this.jsonToFAComponentParser = jsonToFAComponentParser;

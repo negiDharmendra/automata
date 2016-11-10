@@ -23,7 +23,7 @@ public class Main {
 
         for (Object object : objects) {
             JsonToFAComponentParser jsonToFAComponentParser = new JsonToFAComponentParser(object.toString());
-            new DFATestRunner(finiteAutomataGenerators, jsonToFAComponentParser).runAll();
+            new FATestRunner(finiteAutomataGenerators, jsonToFAComponentParser).runAll();
         }
     }
 

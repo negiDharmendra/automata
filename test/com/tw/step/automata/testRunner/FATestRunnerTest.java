@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 
-public class DFATestRunnerTest {
+public class FATestRunnerTest {
 
 
     @Test
@@ -27,8 +27,8 @@ public class DFATestRunnerTest {
         HashMap<String, FiniteAutomataGenerator> finiteAutomataMachineGenerator = new HashMap<>();
         finiteAutomataMachineGenerator.put("dfa", new DFAGenerator());
 
-        DFATestRunner dfaTestRunner = new DFATestRunner(finiteAutomataMachineGenerator, jsonToFAComponentParser);
-        assertTrue(dfaTestRunner.runAll());
+        FATestRunner FATestRunner = new FATestRunner(finiteAutomataMachineGenerator, jsonToFAComponentParser);
+        assertTrue(FATestRunner.runAll());
 
     }
 
@@ -42,8 +42,8 @@ public class DFATestRunnerTest {
         HashMap<String, FiniteAutomataGenerator> finiteAutomataMachineGenerator = new HashMap<>();
         finiteAutomataMachineGenerator.put("nfa", new NFAGenerator());
 
-        DFATestRunner dfaTestRunner = new DFATestRunner(finiteAutomataMachineGenerator, jsonToFAComponentParser);
-        assertTrue(dfaTestRunner.runAll());
+        FATestRunner FATestRunner = new FATestRunner(finiteAutomataMachineGenerator, jsonToFAComponentParser);
+        assertTrue(FATestRunner.runAll());
 
     }
 
@@ -58,7 +58,7 @@ public class DFATestRunnerTest {
 
         for (Object object : objects) {
             JsonToFAComponentParser jsonToFAComponentParser = new JsonToFAComponentParser(object.toString());
-            assertTrue(new DFATestRunner(finiteAutomataGenerators, jsonToFAComponentParser).runAll());
+            assertTrue(new FATestRunner(finiteAutomataGenerators, jsonToFAComponentParser).runAll());
         }
 
     }
