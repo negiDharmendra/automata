@@ -5,11 +5,10 @@ import com.tw.step.automata.util.States;
 import com.tw.step.automata.util.TransitionTable;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class NFATransitionTable implements TransitionTable<States> {
     private HashMap<State, HashMap<String, States>> transitionTable = new HashMap<>();
-    private States prevStates = new States();
+    private States prevStates;
 
     public void addTransition(State inputTransition, String alphabet, States outputTransition) {
         if (transitionTable.containsKey(inputTransition))
@@ -49,9 +48,14 @@ public class NFATransitionTable implements TransitionTable<States> {
     }
 
     States getEpsilonStates(States states) {
+        initialisePrevStates();
         States allEpsilonStates = new States();
         states.forEach(state -> allEpsilonStates.addAll(getEpsilonStates(state)));
         return allEpsilonStates;
+    }
+
+    private void initialisePrevStates() {
+        prevStates = new States();
     }
 
     @Override

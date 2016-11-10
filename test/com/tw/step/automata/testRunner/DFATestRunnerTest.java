@@ -5,8 +5,12 @@ import com.tw.step.automata.nfa.NFAGenerator;
 import com.tw.step.automata.util.FiniteAutomataGenerator;
 import com.tw.step.automata.util.InvalidAlphabetException;
 import com.tw.step.automata.util.JsonToFAComponentParser;
+import org.json.JSONArray;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
@@ -40,6 +44,22 @@ public class DFATestRunnerTest {
 
         DFATestRunner dfaTestRunner = new DFATestRunner(finiteAutomataMachineGenerator, jsonToFAComponentParser);
         assertTrue(dfaTestRunner.runAll());
+
+    }
+
+    @Test
+    public void runAllTestCases() throws InvalidAlphabetException, IOException {
+        String jsonText = Files.readAllLines(Paths.get("test/com/tw/step/automata/testRunner/testCases.json")).get(0);
+        jsonText = jsonText.replaceAll("\\\\|\"", "");
+        JSONArray objects = new JSONArray(jsonText);
+        HashMap<String, FiniteAutomataGenerator> finiteAutomataGenerators = new HashMap<>();
+        finiteAutomataGenerators.put("dfa", new DFAGenerator());
+        finiteAutomataGenerators.put("nfa", new NFAGenerator());
+
+        for (Object object : objects) {
+            JsonToFAComponentParser jsonToFAComponentParser = new JsonToFAComponentParser(object.toString());
+            assertTrue(new DFATestRunner(finiteAutomataGenerators, jsonToFAComponentParser).runAll());
+        }
 
     }
 }

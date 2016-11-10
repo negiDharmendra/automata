@@ -46,10 +46,10 @@ class DFATestRunner {
             testCase  = testCase.equals("null") ? "" : testCase;
             boolean validate = finiteAutomataMachine.validate(testCase);
             if(validate==defaultResult){
-                System.out.println("Failed  "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
+                System.out.println("Failed  "+machineInfo.get("type")+" "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
                 return validate;
             }
-            System.out.println("Passed  "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
+            System.out.println("Passed  "+machineInfo.get("type")+" "+machineInfo.get("name") +  " " +testCaseType +" testcase "+testCase);
         }
 
         return !defaultResult;
