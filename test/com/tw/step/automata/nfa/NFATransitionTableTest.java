@@ -108,4 +108,29 @@ public class NFATransitionTableTest {
 
         assertEquals(expectedStates2, nfaTransitionTable.getEpsilonStates(states));
     }
+
+
+    @Test
+    public void shouldResolveRecursiveEpsilonLoop() {
+        NFATransitionTable nfaTransitionTable = new NFATransitionTable();
+        States states1 = new States();
+        states1.add(q2);
+        states1.add(q3);
+
+        States states2 = new States();
+        states2.add(q1);
+
+        nfaTransitionTable.addTransition(q1,"e",states1);
+        nfaTransitionTable.addTransition(q2,"e",states2);
+
+        States states = new States();
+        states.add(q1);
+
+        States expectedStates2 = new States();
+        expectedStates2.add(q2);
+        expectedStates2.add(q3);
+        expectedStates2.addAll(states);
+
+        assertEquals(expectedStates2, nfaTransitionTable.getEpsilonStates(states));
+    }
 }

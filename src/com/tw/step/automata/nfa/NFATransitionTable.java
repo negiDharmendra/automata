@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class NFATransitionTable implements TransitionTable<States> {
     private HashMap<State, HashMap<String, States>> transitionTable = new HashMap<>();
-
+    private States prevStates = new States();
 
     public void addTransition(State inputTransition, String alphabet, States outputTransition) {
         if (transitionTable.containsKey(inputTransition))
@@ -38,20 +38,16 @@ public class NFATransitionTable implements TransitionTable<States> {
     }
 
     private States getEpsilonStates(State previousState) {
+        prevStates.add(previousState);
         States allEpsilonStates = new States();
         allEpsilonStates.add(previousState);
-        HashMap<String, States> currentStates = transitionTable.get(previousState);
-        if (currentStates != null) {
-            States currentEpsilonStates = currentStates.get("e");
-            if (currentEpsilonStates != null) {
-                for (State state : currentEpsilonStates) {
-                    States epsilonStates = getEpsilonStates(state);
-                    if (epsilonStates.isEmpty())
-                        break;
-                    allEpsilonStates.addAll(epsilonStates);
-                }
-            }
-        }
+        HashMap<String, States> currentStates = transitionTable.getOrDefault(previousState, new HashMap<>());
+        States currentEpsilonStates = currentStates.getOrDefault("e", new States());
+        currentEpsilonStates.stream().filter(state -> !prevStates.contains(state)).forEach(state -> {
+            States epsilonStates = getEpsilonStates(state);
+            if (!epsilonStates.isEmpty())
+                allEpsilonStates.addAll(epsilonStates);
+        });
         return allEpsilonStates;
     }
 
